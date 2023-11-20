@@ -1,29 +1,31 @@
 package collections;
 
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Objects;
 import java.util.Random;
+import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class BenchmarkArrayList {
-    private static ArrayList InitializeList(int numberOfElements, DataType dataType) {
+    private static ArrayList initializeList(int numberOfElements, DataType dataType) {
         ArrayList List = new ArrayList<>();
         if (dataType == DataType.INTEGER) {
-            List.addAll((ArrayList) IntStream.range(0, numberOfElements)
+            List.addAll((ArrayList) IntStream.range(0, numberOfElements).parallel()
                 .boxed()
                 .collect(Collectors.toList()));
         } else if (dataType == DataType.STRING) {
             Random random = new Random();
-            List.addAll((ArrayList) IntStream.range(0, numberOfElements)
+            List.addAll((ArrayList) IntStream.range(0, numberOfElements).parallel()
                 .mapToObj(i -> random.ints('a', 'z' + 1)
-                    .limit(4)
+                    .limit(40)
                     .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
                     .toString())
                 .collect(Collectors.toList()));
         } else if (dataType == DataType.FLOAT) {
             Random random = new Random();
-            List.addAll((ArrayList) IntStream.range(0, numberOfElements)
+            List.addAll((ArrayList) IntStream.range(0, numberOfElements).parallel()
                 .mapToObj(i -> random.nextFloat() * numberOfElements)
                 .collect(Collectors.toList()));
         }
@@ -35,46 +37,46 @@ public class BenchmarkArrayList {
         ArrayList list;
 
         long startTimeForAddingElements = System.currentTimeMillis();
-        list = InitializeList(numberOfElements, dataType);
+        list = initializeList(numberOfElements, dataType);
         long endTimeForAddingElements = System.currentTimeMillis();
 
         return endTimeForAddingElements - startTimeForAddingElements;
     }
-    public static Long ReadElementsTest(int numberOfElements, DataType dataType) {
-        ArrayList list = InitializeList(numberOfElements, dataType);
+    public static Long readElementsTest(int numberOfElements, DataType dataType) {
+        ArrayList list = initializeList(numberOfElements, dataType);
 
         long startTimeForReadElements = System.currentTimeMillis();
-        IntStream.range(0, numberOfElements).forEach(list::get);
+        IntStream.range(0, numberOfElements).parallel().forEach(list::get);
         long endTimeForReadElements = System.currentTimeMillis();
 
         return endTimeForReadElements - startTimeForReadElements;
     }
-    public static Long UpdateElementsTest(int numberOfElements, DataType dataType) {
-        ArrayList list = InitializeList(numberOfElements, dataType);
+    public static Long updateElementsTest(int numberOfElements, DataType dataType) {
+        ArrayList list = initializeList(numberOfElements, dataType);
 
         long startTimeForUpdateElements = System.currentTimeMillis();
-        IntStream.range(0, numberOfElements).forEach(i -> list.set(i, i + 1));
+        IntStream.range(0, numberOfElements).parallel().forEach(i -> list.set(i, i + 1));
         long endTimeForUpdateElements = System.currentTimeMillis();
         return endTimeForUpdateElements - startTimeForUpdateElements;
     }
-    public static Long DeleteElementsTest(int numberOfElements, DataType dataType) {
-        ArrayList integers = InitializeList(numberOfElements, dataType);
+    public static Long deleteElementsTest(int numberOfElements, DataType dataType) {
+        ArrayList integers = initializeList(numberOfElements, dataType);
 
         long startTimeForDeleteElements = System.currentTimeMillis();
-        IntStream.range(0, numberOfElements).map(i -> numberOfElements - 1 - i)
+        IntStream.range(0, numberOfElements).parallel().map(i -> numberOfElements - 1 - i)
             .forEach(integers::remove);
         long endTimeForDeleteElements = System.currentTimeMillis();
         return endTimeForDeleteElements - startTimeForDeleteElements;
     }
-    public static Long FilterTest(int numberOfElements, DataType dataType) {
-        ArrayList list = InitializeList(numberOfElements, dataType);
+    public static Long filterTest(int numberOfElements, DataType dataType) {
+        ArrayList list = initializeList(numberOfElements, dataType);
 
         long startTimeForFilterElements, endTimeForFilterElements;
 
         switch (dataType) {
             case INTEGER:
                 startTimeForFilterElements = System.currentTimeMillis();
-                list = (ArrayList)list.stream()
+                list = (ArrayList)list.parallelStream()
                     .filter(number -> (int)number % 2 == 0)
                     .toList();
                 endTimeForFilterElements = System.currentTimeMillis();
@@ -82,7 +84,7 @@ public class BenchmarkArrayList {
 
             case FLOAT:
                 startTimeForFilterElements = System.currentTimeMillis();
-                list = (ArrayList)list.stream()
+                list = (ArrayList)list.parallelStream()
                     .filter(number -> (float)number > 30.0f)
                     .toList();
                 endTimeForFilterElements = System.currentTimeMillis();
@@ -90,7 +92,7 @@ public class BenchmarkArrayList {
 
             case STRING:
                 startTimeForFilterElements = System.currentTimeMillis();
-                list = (ArrayList)list.stream()
+                list = (ArrayList)list.parallelStream()
                     .filter(word -> ((String)word).startsWith("a"))
                     .toList();
                 endTimeForFilterElements = System.currentTimeMillis();
@@ -101,125 +103,87 @@ public class BenchmarkArrayList {
         }
     }
     public static Long SortTest(int numberOfElements, DataType dataType) {
-        ArrayList list = InitializeList(numberOfElements, dataType);
+        ArrayList list = initializeList(numberOfElements, dataType);
 
         long startTimeForFilterElements, endTimeForFilterElements;
-        switch (dataType) {
-            case INTEGER:
-                startTimeForFilterElements = System.currentTimeMillis();
-                list = (ArrayList)list.stream()
-                    .sorted()
-                    .collect(Collectors.toList());
-                endTimeForFilterElements = System.currentTimeMillis();
-                return endTimeForFilterElements - startTimeForFilterElements;
 
-            case FLOAT:
-                startTimeForFilterElements = System.currentTimeMillis();
-                list = (ArrayList)list.stream()
-                    .sorted()
-                    .collect(Collectors.toList());
-                endTimeForFilterElements = System.currentTimeMillis();
-                return endTimeForFilterElements - startTimeForFilterElements;
-
-            case STRING:
-                startTimeForFilterElements = System.currentTimeMillis();
-                Collections.sort(list);
-                endTimeForFilterElements = System.currentTimeMillis();
-                return endTimeForFilterElements - startTimeForFilterElements;
-
-            default:
-                return null;
-        }
+        startTimeForFilterElements = System.currentTimeMillis();
+        list = (ArrayList)list.parallelStream()
+            .sorted()
+            .collect(Collectors.toList());
+        endTimeForFilterElements = System.currentTimeMillis();
+        return endTimeForFilterElements - startTimeForFilterElements;
     }
-    public static Long findTest(int numberOfElements, DataType dataType, Object target) {
-        ArrayList list = InitializeList(numberOfElements, dataType);
+
+    public static <T> Long findTest(int numberOfElements, DataType dataType, T target) {
+        ArrayList<T> list = initializeList(numberOfElements, dataType);
 
         long startTimeForFind, endTimeForFind;
 
+        Predicate<T> matchPredicate;
         switch (dataType) {
-            case INTEGER:
-                startTimeForFind = System.currentTimeMillis();
-                boolean foundInteger = list.stream()
-                    .anyMatch(number -> (int)number == (int)target);
-                endTimeForFind = System.currentTimeMillis();
-                return foundInteger ? (endTimeForFind - startTimeForFind) : -1L;
-
-            case FLOAT:
-                startTimeForFind = System.currentTimeMillis();
-                boolean foundFloat = list.stream()
-                    .anyMatch(number -> (float)number == (float)target);
-                endTimeForFind = System.currentTimeMillis();
-                return foundFloat ? (endTimeForFind - startTimeForFind) : -1L;
-
-            case STRING:
-                startTimeForFind = System.currentTimeMillis();
-                boolean foundString = list.contains(target);
-                endTimeForFind = System.currentTimeMillis();
-                return foundString ? (endTimeForFind - startTimeForFind) : -1L;
-
+            case INTEGER, STRING, FLOAT:
+                matchPredicate = element -> Objects.equals(element, target);
+                break;
             default:
                 return null;
         }
+
+        startTimeForFind = System.currentTimeMillis();
+        boolean found = list.parallelStream().anyMatch(matchPredicate);
+        endTimeForFind = System.currentTimeMillis();
+
+        return found ? (endTimeForFind - startTimeForFind) : -1L;
     }
-    public static Long ConcatTest(int numberOfElements, DataType dataType) {
-        ArrayList list = InitializeList(numberOfElements, dataType);
+    public static <T> Long concatTest(int numberOfElements, DataType dataType) {
+        ArrayList<T> list = initializeList(numberOfElements, dataType);
 
         long startTimeForConcat, endTimeForConcat;
 
+        Function<Object, String> mapper;
         switch (dataType) {
-            case INTEGER:
-                startTimeForConcat = System.currentTimeMillis();
-                String concatenatedInteger = (String) list.stream()
-                    .map(number -> String.valueOf((int)number))
-                    .collect(Collectors.joining(", "));
-                endTimeForConcat = System.currentTimeMillis();
-                return endTimeForConcat - startTimeForConcat; // Return the time taken for concatenation
-
-            case FLOAT:
-                startTimeForConcat = System.currentTimeMillis();
-                String concatenatedFloat = (String) list.stream()
-                    .map(number -> String.valueOf((float)number))
-                    .collect(Collectors.joining(", "));
-                endTimeForConcat = System.currentTimeMillis();
-                return endTimeForConcat - startTimeForConcat; // Return the time taken for concatenation
-
-            case STRING:
-                startTimeForConcat = System.currentTimeMillis();
-                String concatenatedString = String.join(", ", list);
-                endTimeForConcat = System.currentTimeMillis();
-                return endTimeForConcat - startTimeForConcat; // Return the time taken for concatenation
-
+            case INTEGER, FLOAT, STRING:
+                mapper = Object::toString;
+                break;
             default:
                 return null;
         }
+
+        startTimeForConcat = System.currentTimeMillis();
+        list.parallelStream()
+            .map(mapper)
+            .collect(Collectors.joining(", "));
+        endTimeForConcat = System.currentTimeMillis();
+
+        return endTimeForConcat - startTimeForConcat; // Return the time taken for concatenation
     }
     public static Long ReduceTest(int numberOfElements, DataType dataType) {
-        ArrayList list = InitializeList(numberOfElements, dataType);
+        ArrayList<?> list = initializeList(numberOfElements, dataType);
 
         long startTimeForReduce, endTimeForReduce;
 
         switch (dataType) {
             case INTEGER:
                 startTimeForReduce = System.currentTimeMillis();
-                int sumInteger = list.stream()
-                    .mapToInt(number -> (int)number)
-                    .sum();
+                list.parallelStream()
+                    .map(Integer.class::cast)
+                    .reduce(0, Integer::sum);
                 endTimeForReduce = System.currentTimeMillis();
                 return endTimeForReduce - startTimeForReduce; // Return the time taken for reduction
 
             case FLOAT:
                 startTimeForReduce = System.currentTimeMillis();
-                double sumFloat = list.stream()
-                    .mapToDouble(number -> (float)number)
-                    .sum();
+                list.parallelStream()
+                    .map(Float.class::cast)
+                    .reduce(0f, Float::sum);
                 endTimeForReduce = System.currentTimeMillis();
                 return endTimeForReduce - startTimeForReduce; // Return the time taken for reduction
 
             case STRING:
                 startTimeForReduce = System.currentTimeMillis();
-                String concatenatedString = (String) list.stream()
-                    .map(String::valueOf)
-                    .reduce("", (s1, s2) -> ((String)s1) + ((String)s2));
+                list.parallelStream()
+                    .map(Object::toString)
+                    .reduce("", String::concat);
                 endTimeForReduce = System.currentTimeMillis();
                 return endTimeForReduce - startTimeForReduce; // Return the time taken for reduction
 
@@ -227,4 +191,5 @@ public class BenchmarkArrayList {
                 return null;
         }
     }
+
 }
