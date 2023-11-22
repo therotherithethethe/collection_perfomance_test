@@ -1,102 +1,101 @@
-package collections;
+package collections.benchmarks;
 
-import java.util.HashSet;
+import collections.DataType;
+import java.util.ArrayList;
 import java.util.Objects;
-import java.util.function.Predicate;
-import java.util.stream.IntStream;
-import java.util.stream.Collectors;
 import java.util.Random;
+import java.util.function.Function;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
-public class BenchmarkHashSet {
-    private static HashSet initializeSet(int numberOfElements, DataType dataType) {
-        HashSet set = new HashSet<>();
+public class BenchmarkArrayList {
+    private static ArrayList initializeList(int numberOfElements, DataType dataType) {
+        ArrayList List = new ArrayList<>();
         if (dataType == DataType.INTEGER) {
-            set.addAll((HashSet) IntStream.range(0, numberOfElements).parallel()
+            List.addAll((ArrayList) IntStream.range(0, numberOfElements).parallel()
                 .boxed()
-                .collect(Collectors.toSet()));
+                .collect(Collectors.toList()));
         } else if (dataType == DataType.STRING) {
             Random random = new Random();
-            set.addAll((HashSet) IntStream.range(0, numberOfElements).parallel()
+            List.addAll((ArrayList) IntStream.range(0, numberOfElements).parallel()
                 .mapToObj(i -> random.ints('a', 'z' + 1)
                     .limit(40)
                     .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
                     .toString())
-                .collect(Collectors.toSet()));
+                .collect(Collectors.toList()));
         } else if (dataType == DataType.FLOAT) {
             Random random = new Random();
-            set.addAll((HashSet) IntStream.range(0, numberOfElements).parallel()
+            List.addAll((ArrayList) IntStream.range(0, numberOfElements).parallel()
                 .mapToObj(i -> random.nextFloat() * numberOfElements)
-                .collect(Collectors.toSet()));
+                .collect(Collectors.toList()));
         }
 
-        return set;
-    }
+        return List;
 
+    }
     public static Long createElementsTest(int numberOfElements, DataType dataType) {
-        HashSet set;
+        ArrayList list;
 
         long startTimeForAddingElements = System.currentTimeMillis();
-        set = initializeSet(numberOfElements, dataType);
+        initializeList(numberOfElements, dataType);
         long endTimeForAddingElements = System.currentTimeMillis();
 
         return endTimeForAddingElements - startTimeForAddingElements;
     }
+    public static Long readElementsTest(int numberOfElements, DataType dataType) {
+        ArrayList list = initializeList(numberOfElements, dataType);
 
-    // Read test is not applicable for HashSet as it does not support get by index
+        long startTimeForReadElements = System.currentTimeMillis();
+        IntStream.range(0, numberOfElements).parallel().forEach(list::get);
+        long endTimeForReadElements = System.currentTimeMillis();
 
+        return endTimeForReadElements - startTimeForReadElements;
+    }
     public static Long updateElementsTest(int numberOfElements, DataType dataType) {
-        HashSet set = initializeSet(numberOfElements, dataType);
-        // Updating elements in a HashSet is not straightforward as in ArrayList
-        // The usual approach would be to remove the old element and add the updated one
+        ArrayList list = initializeList(numberOfElements, dataType);
 
         long startTimeForUpdateElements = System.currentTimeMillis();
-        // Example update logic for INTEGER type
-        if (dataType == DataType.INTEGER) {
-            set.forEach(item -> {
-                set.remove(item);
-                set.add((Integer) item + 1);
-            });
-        }
+        IntStream.range(0, numberOfElements).parallel().forEach(i -> list.set(i, i + 1));
         long endTimeForUpdateElements = System.currentTimeMillis();
         return endTimeForUpdateElements - startTimeForUpdateElements;
     }
-
     public static Long deleteElementsTest(int numberOfElements, DataType dataType) {
-        HashSet set = initializeSet(numberOfElements, dataType);
+        ArrayList integers = initializeList(numberOfElements, dataType);
 
         long startTimeForDeleteElements = System.currentTimeMillis();
-        set.clear(); // Clearing the whole set
+        IntStream.range(0, numberOfElements).parallel().map(i -> numberOfElements - 1 - i)
+            .forEach(integers::remove);
         long endTimeForDeleteElements = System.currentTimeMillis();
         return endTimeForDeleteElements - startTimeForDeleteElements;
     }
-
     public static Long filterTest(int numberOfElements, DataType dataType) {
-        HashSet set = initializeSet(numberOfElements, dataType);
+        ArrayList list = initializeList(numberOfElements, dataType);
 
         long startTimeForFilterElements, endTimeForFilterElements;
 
         switch (dataType) {
             case INTEGER:
                 startTimeForFilterElements = System.currentTimeMillis();
-                set = (HashSet) set.parallelStream()
-                    .filter(number -> (int) number % 2 == 0)
-                    .collect(Collectors.toSet());
+                list = (ArrayList)list.parallelStream()
+                    .filter(number -> (int)number % 2 == 0)
+                    .toList();
                 endTimeForFilterElements = System.currentTimeMillis();
                 return endTimeForFilterElements - startTimeForFilterElements;
 
             case FLOAT:
                 startTimeForFilterElements = System.currentTimeMillis();
-                set = (HashSet) set.parallelStream()
-                    .filter(number -> (float) number > 30.0f)
-                    .collect(Collectors.toSet());
+                list = (ArrayList)list.parallelStream()
+                    .filter(number -> (float)number > 30.0f)
+                    .toList();
                 endTimeForFilterElements = System.currentTimeMillis();
                 return endTimeForFilterElements - startTimeForFilterElements;
 
             case STRING:
                 startTimeForFilterElements = System.currentTimeMillis();
-                set = (HashSet) set.parallelStream()
-                    .filter(word -> ((String) word).startsWith("a"))
-                    .collect(Collectors.toSet());
+                list = (ArrayList)list.parallelStream()
+                    .filter(word -> ((String)word).startsWith("a"))
+                    .toList();
                 endTimeForFilterElements = System.currentTimeMillis();
                 return endTimeForFilterElements - startTimeForFilterElements;
 
@@ -104,8 +103,21 @@ public class BenchmarkHashSet {
                 return null;
         }
     }
+    public static Long SortTest(int numberOfElements, DataType dataType) {
+        ArrayList list = initializeList(numberOfElements, dataType);
+
+        long startTimeForFilterElements, endTimeForFilterElements;
+
+        startTimeForFilterElements = System.currentTimeMillis();
+        list = (ArrayList)list.parallelStream()
+            .sorted()
+            .collect(Collectors.toList());
+        endTimeForFilterElements = System.currentTimeMillis();
+        return endTimeForFilterElements - startTimeForFilterElements;
+    }
+
     public static <T> Long findTest(int numberOfElements, DataType dataType, T target) {
-        HashSet<T> set = initializeSet(numberOfElements, dataType);
+        ArrayList<T> list = initializeList(numberOfElements, dataType);
 
         long startTimeForFind, endTimeForFind;
 
@@ -119,20 +131,42 @@ public class BenchmarkHashSet {
         }
 
         startTimeForFind = System.currentTimeMillis();
-        boolean found = set.parallelStream().anyMatch(matchPredicate);
+        boolean found = list.parallelStream().anyMatch(matchPredicate);
         endTimeForFind = System.currentTimeMillis();
 
         return found ? (endTimeForFind - startTimeForFind) : -1L;
     }
+    public static <T> Long concatTest(int numberOfElements, DataType dataType) {
+        ArrayList<T> list = initializeList(numberOfElements, dataType);
+
+        long startTimeForConcat, endTimeForConcat;
+
+        Function<Object, String> mapper;
+        switch (dataType) {
+            case INTEGER, FLOAT, STRING:
+                mapper = Object::toString;
+                break;
+            default:
+                return null;
+        }
+
+        startTimeForConcat = System.currentTimeMillis();
+        list.parallelStream()
+            .map(mapper)
+            .collect(Collectors.joining(", "));
+        endTimeForConcat = System.currentTimeMillis();
+
+        return endTimeForConcat - startTimeForConcat;
+    }
     public static Long reduceTest(int numberOfElements, DataType dataType) {
-        HashSet<?> set = initializeSet(numberOfElements, dataType);
+        ArrayList<?> list = initializeList(numberOfElements, dataType);
 
         long startTimeForReduce, endTimeForReduce;
 
         switch (dataType) {
             case INTEGER:
                 startTimeForReduce = System.currentTimeMillis();
-                set.parallelStream()
+                list.parallelStream()
                     .map(Integer.class::cast)
                     .reduce(0, Integer::sum);
                 endTimeForReduce = System.currentTimeMillis();
@@ -140,7 +174,7 @@ public class BenchmarkHashSet {
 
             case FLOAT:
                 startTimeForReduce = System.currentTimeMillis();
-                set.parallelStream()
+                list.parallelStream()
                     .map(Float.class::cast)
                     .reduce(0f, Float::sum);
                 endTimeForReduce = System.currentTimeMillis();
@@ -148,7 +182,7 @@ public class BenchmarkHashSet {
 
             case STRING:
                 startTimeForReduce = System.currentTimeMillis();
-                set.parallelStream()
+                list.parallelStream()
                     .map(Object::toString)
                     .reduce("", String::concat);
                 endTimeForReduce = System.currentTimeMillis();
@@ -158,4 +192,5 @@ public class BenchmarkHashSet {
                 return null;
         }
     }
+
 }

@@ -1,5 +1,6 @@
-package collections;
+package collections.benchmarks;
 
+import collections.DataType;
 import java.util.Objects;
 import java.util.TreeMap;
 import java.util.function.Predicate;
@@ -39,7 +40,7 @@ public class BenchmarkTreeMap {
         TreeMap<Integer, Object> map = initializeMap(numberOfElements, dataType);
 
         long startTime = System.currentTimeMillis();
-        map.forEach((key, value) -> {}); // Read each element
+        map.forEach((key, value) -> {});
         long endTime = System.currentTimeMillis();
 
         return endTime - startTime;
@@ -49,7 +50,7 @@ public class BenchmarkTreeMap {
         TreeMap<Integer, Object> map = initializeMap(numberOfElements, dataType);
 
         long startTime = System.currentTimeMillis();
-        map.keySet().forEach(key -> map.put(key, key + 1)); // Example update operation
+        map.keySet().forEach(key -> map.put(key, key + 1));
         long endTime = System.currentTimeMillis();
 
         return endTime - startTime;
@@ -59,14 +60,12 @@ public class BenchmarkTreeMap {
         TreeMap<Integer, Object> map = initializeMap(numberOfElements, dataType);
 
         long startTime = System.currentTimeMillis();
-        map.clear(); // Clear the map
+        map.clear();
         long endTime = System.currentTimeMillis();
 
         return endTime - startTime;
     }
 
-    // Other tests like findTest, concatTest, reduceTest can be implemented similarly
-    // by adapting the logic to suit the TreeMap structure and behavior.
     public static <T> Long findTest(int numberOfElements, DataType dataType, T target) {
         TreeMap<Integer, Object> map = initializeMap(numberOfElements, dataType);
 
@@ -88,7 +87,7 @@ public class BenchmarkTreeMap {
         return found ? (endTimeForFind - startTimeForFind) : -1L;
     }
 
-    public static <T> Long concatTest(int numberOfElements, DataType dataType) {
+    public static Long concatTest(int numberOfElements, DataType dataType) {
         TreeMap<Integer, Object> map = initializeMap(numberOfElements, dataType);
 
         long startTimeForConcat, endTimeForConcat;
