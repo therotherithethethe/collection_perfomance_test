@@ -46,7 +46,7 @@ public class BenchmarkLinkedList {
 
         long startTime = System.currentTimeMillis();
         while (!list.isEmpty()) {
-            list.removeFirst(); // or list.removeLast()
+            list.removeFirst();
         }
         long endTime = System.currentTimeMillis();
 
