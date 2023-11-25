@@ -103,7 +103,7 @@ public class BenchmarkArrayList {
                 return null;
         }
     }
-    public static Long SortTest(int numberOfElements, DataType dataType) {
+    public static Long sortTest(int numberOfElements, DataType dataType) {
         ArrayList list = initializeList(numberOfElements, dataType);
 
         long startTimeForFilterElements, endTimeForFilterElements;
