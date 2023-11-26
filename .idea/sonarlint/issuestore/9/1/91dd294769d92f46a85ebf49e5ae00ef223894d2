@@ -1,10 +1,0 @@
-
-v	java:S115"ZRename this constant name to match the regular expression '^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$'.(æßÆÉ8‰àùÚÀ1
-
-java:S11860"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(¾ÃšŞ8‰àùÚÀ1
-£
-java:S11863"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(ÊÓÀúÿÿÿÿ8‰àùÚÀ1
-
-java:S11866"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(‹ ¥8‰àùÚÀ1
-O
-java:S6126"2Replace this String concatenation with Text block.(Éç©¿8™àùÚÀ1

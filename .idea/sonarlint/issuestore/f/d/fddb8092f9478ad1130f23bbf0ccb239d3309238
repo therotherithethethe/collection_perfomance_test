@@ -1,15 +1,0 @@
-
-k
-java:S1192"NDefine a constant instead of duplicating this literal "LinkedHashSet" 3 times.(‘œ¤…8Ã‡íµÀ1
-l
-java:S1192"JDefine a constant instead of duplicating this literal "ArrayList" 6 times.(¿ë´¯şÿÿÿÿ8Ğ”åµÀ1
-j
-java:S1192"HDefine a constant instead of duplicating this literal "TreeMap" 4 times.(öè‹şÿÿÿÿ8Ğ”åµÀ1
-m
-java:S1192"KDefine a constant instead of duplicating this literal "LinkedList" 4 times.(Ë”¾ûıÿÿÿÿ8Ä‡íµÀ1
-e
-java:S1192"HDefine a constant instead of duplicating this literal "HashSet" 4 times.(“˜¦æ8‡‚éµÀ1
-\
-java:S1118":Add a private constructor to hide the implicit public one.(à…„¢ÿÿÿÿÿ8ï€“´À1
-v
-java:S1128"TRemove this unnecessary import: same package classes are always implicitly imported.(î¦„¦şÿÿÿÿ8ó ˜»À1
