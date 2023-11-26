@@ -1,0 +1,40 @@
+
+Q
+java:S3740
+"/Provide the parametrized type for this generic.(Ÿˆ«ÿÿÿÿÿ8³Ñ›¸¿1
+L
+java:S3740"/Provide the parametrized type for this generic.(Âí¼8½Ñ›¸¿1
+L
+java:S3740+"/Provide the parametrized type for this generic.(¦Ÿ°é8½Ñ›¸¿1
+L
+java:S37404"/Provide the parametrized type for this generic.(¦Ÿ°é8‰á¢¸¿1
+W
+java:S1118	":Add a private constructor to hide the implicit public one.(ÑËÏë8˜—‹¸¿1
+:
+java:S2119"Save and re-use this "Random".(¼İÅf8ÌÑ›¸¿1
+:
+java:S2119"Save and re-use this "Random".(¼İÅf8ÍÑ›¸¿1
+Y
+java:S1854;"7Remove this useless assignment to local variable "set".(ÆãÓ„ıÿÿÿÿ8 á¢¸¿1
+Y
+java:S1854C"7Remove this useless assignment to local variable "set".(ÆãÓ„ıÿÿÿÿ8 á¢¸¿1
+Y
+java:S1854K"7Remove this useless assignment to local variable "set".(ÆãÓ„ıÿÿÿÿ8 á¢¸¿1
+S
+java:S16596"6Declare "endTimeForFilterElements" on a separate line.(ƒÕĞ«8¡á¢¸¿1
+N
+java:S1659Z",Declare "endTimeForFind" on a separate line.(ÓÏ“üÿÿÿÿ8¤á¢¸¿1
+b
+java:S1854i"@Remove this useless assignment to local variable "concatenated".(ÛŒ¼‹üÿÿÿÿ8¦á¢¸¿1
+K
+java:S1659f".Declare "endTimeForConcat" on a separate line.(Íî½8¦á¢¸¿1
+S
+java:S1481i"1Remove this unused "concatenated" local variable.(ÛŒ¼‹üÿÿÿÿ8§á¢¸¿1
+P
+java:S1659s".Declare "endTimeForReduce" on a separate line.(ÜÅà¿ùÿÿÿÿ8¢”§¸¿1
+L
+java:S2201z"*The return value of "reduce" must be used.(ŒêŒÍıÿÿÿÿ8¢”§¸¿1
+H
+java:S2201‚"*The return value of "reduce" must be used.(Çõ8¢”§¸¿1
+M
+java:S2201Š"*The return value of "reduce" must be used.(ÍÿÙ…ÿÿÿÿÿ8¢”§¸¿1

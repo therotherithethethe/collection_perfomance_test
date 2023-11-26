@@ -1,0 +1,49 @@
+
+Q
+java:S3740"/Provide the parametrized type for this generic.(ÌÌïúÿÿÿÿ8‹Œ•é¾1
+L
+java:S3740"/Provide the parametrized type for this generic.(Àêˆ²8‹Œ•é¾1
+L
+java:S3740%"/Provide the parametrized type for this generic.(·´“¢8‹Œ•é¾1
+L
+java:S37400"/Provide the parametrized type for this generic.(Ìÿ¨…8‹Œ•é¾1
+L
+java:S3740>"/Provide the parametrized type for this generic.(Ìÿ¨…8‹Œ•é¾1
+L
+java:S3740G"/Provide the parametrized type for this generic.(Ìÿ¨…8ŒŒ•é¾1
+h
+java:S1301n"KReplace this "switch" statement by "if" statements to increase readability.(ÚÆ§î8Ùû¨é¾1
+\
+java:S1118":Add a private constructor to hide the implicit public one.(²Ê›úıÿÿÿÿ8™Œ•é¾1
+L
+java:S1905"*Remove this unnecessary cast to "HashSet".(éÙŠÿùÿÿÿÿ8šŒ•é¾1
+:
+java:S2119"Save and re-use this "Random".(¼İÅf8œŒ•é¾1
+L
+java:S1905"*Remove this unnecessary cast to "HashSet".(éÙŠÿùÿÿÿÿ8œŒ•é¾1
+:
+java:S2119"Save and re-use this "Random".(¼İÅf8Œ•é¾1
+L
+java:S1905"*Remove this unnecessary cast to "HashSet".(éÙŠÿùÿÿÿÿ8ŸŒ•é¾1
+T
+java:S1854("7Remove this useless assignment to local variable "set".(òÉßµ8 Œ•é¾1
+E
+java:S1481%"(Remove this unused "set" local variable.(·´“¢8 Œ•é¾1
+Y
+java:S1854N"7Remove this useless assignment to local variable "set".(ÖÒÄıÿÿÿÿ8£Œ•é¾1
+Y
+java:S1854V"7Remove this useless assignment to local variable "set".(ÖÒÄıÿÿÿÿ8£Œ•é¾1
+Y
+java:S1854^"7Remove this useless assignment to local variable "set".(ÖÒÄıÿÿÿÿ8£Œ•é¾1
+S
+java:S1659I"6Declare "endTimeForFilterElements" on a separate line.(ƒÕĞ«8¤Œ•é¾1
+N
+java:S1659k",Declare "endTimeForFind" on a separate line.(ÓÏ“üÿÿÿÿ8ôû¨é¾1
+P
+java:S1659".Declare "endTimeForReduce" on a separate line.(ÜÅà¿ùÿÿÿÿ8Ñªé¾1
+M
+java:S2201†"*The return value of "reduce" must be used.(ŒêŒÍıÿÿÿÿ8Ñªé¾1
+H
+java:S2201"*The return value of "reduce" must be used.(Çõ8Ñªé¾1
+M
+java:S2201–"*The return value of "reduce" must be used.(ÍÿÙ…ÿÿÿÿÿ8Ñªé¾1

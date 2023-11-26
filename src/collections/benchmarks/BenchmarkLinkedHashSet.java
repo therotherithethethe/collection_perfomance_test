@@ -56,7 +56,7 @@ public class BenchmarkLinkedHashSet {
         switch (dataType) {
             case INTEGER:
                 startTimeForFilterElements = System.currentTimeMillis();
-                set = (LinkedHashSet)set.parallelStream()
+                set.parallelStream()
                     .filter(number -> (int)number % 2 == 0)
                     .collect(Collectors.toSet());
                 endTimeForFilterElements = System.currentTimeMillis();
@@ -64,7 +64,7 @@ public class BenchmarkLinkedHashSet {
 
             case FLOAT:
                 startTimeForFilterElements = System.currentTimeMillis();
-                set = (LinkedHashSet)set.parallelStream()
+                set.parallelStream()
                     .filter(number -> (float)number > 30.0f)
                     .collect(Collectors.toSet());
                 endTimeForFilterElements = System.currentTimeMillis();
@@ -72,7 +72,7 @@ public class BenchmarkLinkedHashSet {
 
             case STRING:
                 startTimeForFilterElements = System.currentTimeMillis();
-                set = (LinkedHashSet)set.parallelStream()
+                set.parallelStream()
                     .filter(word -> ((String)word).startsWith("a"))
                     .collect(Collectors.toSet());
                 endTimeForFilterElements = System.currentTimeMillis();

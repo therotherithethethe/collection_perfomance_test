@@ -64,7 +64,7 @@ public class BenchmarkArrayList {
         ArrayList integers = initializeList(numberOfElements, dataType);
 
         long startTimeForDeleteElements = System.currentTimeMillis();
-        IntStream.range(0, numberOfElements).parallel().map(i -> numberOfElements - 1 - i)
+        IntStream.range(0, numberOfElements).map(i -> numberOfElements - 1 - i)
             .forEach(integers::remove);
         long endTimeForDeleteElements = System.currentTimeMillis();
         return endTimeForDeleteElements - startTimeForDeleteElements;
@@ -77,7 +77,7 @@ public class BenchmarkArrayList {
         switch (dataType) {
             case INTEGER:
                 startTimeForFilterElements = System.currentTimeMillis();
-                list = (ArrayList)list.parallelStream()
+                list.parallelStream()
                     .filter(number -> (int)number % 2 == 0)
                     .toList();
                 endTimeForFilterElements = System.currentTimeMillis();
@@ -85,7 +85,7 @@ public class BenchmarkArrayList {
 
             case FLOAT:
                 startTimeForFilterElements = System.currentTimeMillis();
-                list = (ArrayList)list.parallelStream()
+                list.parallelStream()
                     .filter(number -> (float)number > 30.0f)
                     .toList();
                 endTimeForFilterElements = System.currentTimeMillis();
@@ -93,7 +93,7 @@ public class BenchmarkArrayList {
 
             case STRING:
                 startTimeForFilterElements = System.currentTimeMillis();
-                list = (ArrayList)list.parallelStream()
+                list.parallelStream()
                     .filter(word -> ((String)word).startsWith("a"))
                     .toList();
                 endTimeForFilterElements = System.currentTimeMillis();

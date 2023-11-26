@@ -2,6 +2,7 @@ package collections.benchmarks;
 
 import collections.DataType;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Objects;
 import java.util.function.Predicate;
 import java.util.stream.IntStream;
@@ -41,21 +42,6 @@ public class BenchmarkHashSet {
         long endTimeForAddingElements = System.currentTimeMillis();
 
         return endTimeForAddingElements - startTimeForAddingElements;
-    }
-
-
-    public static Long updateElementsTest(int numberOfElements, DataType dataType) {
-        HashSet set = initializeSet(numberOfElements, dataType);
-
-        long startTimeForUpdateElements = System.currentTimeMillis();
-        if (dataType == DataType.INTEGER) {
-            set.forEach(item -> {
-                set.remove(item);
-                set.add((Integer) item + 1);
-            });
-        }
-        long endTimeForUpdateElements = System.currentTimeMillis();
-        return endTimeForUpdateElements - startTimeForUpdateElements;
     }
 
     public static Long deleteElementsTest(int numberOfElements, DataType dataType) {
